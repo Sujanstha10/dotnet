@@ -76,9 +76,7 @@ class CRUD
             Console.WriteLine("\nAccounts:");
 
             string query = "SELECT * FROM accounts";
-            MySqlCommand command = new MySqlCommand(query, connection);
-
-            connection.Open();
+            ExecuteQuery(query);
             using (MySqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
