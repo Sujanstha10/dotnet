@@ -20,7 +20,7 @@ class CRUD
         }
         catch (Exception ex)
         {
-            Console.WriteLine("error occured"ex);
+            Console.WriteLine("error occured" + ex);
         }
         finally
         {
@@ -29,6 +29,9 @@ class CRUD
     }
     void Insert()
     {
+        string acc_num;
+        string address;
+        string name;
 
         Console.WriteLine("enter account number");
         acc_num = Console.ReadLine();
@@ -47,7 +50,8 @@ class CRUD
         ExecuteQuery(query);
     }
 
-    void Update(){
+    void Update()
+    {
         string acc_num;
         string address;
         string name;
@@ -61,37 +65,37 @@ class CRUD
         name = Console.ReadLine();
         Console.WriteLine("enter account holder address");
         address = Console.ReadLine();
-        string query = "update table account set name="name",address="address",acc_num="acc_num"where id ="+id;
+        string query = "update table account set name="name",address="address",acc_num="acc_num"where id =" + id;
         ExecuteQuery(query);
 
     }
-void Read()
-{
-    try
+    void Read()
     {
-        Console.WriteLine("\nAccounts:");
-
-        string query = "SELECT * FROM accounts";
-        MySqlCommand command = new MySqlCommand(query, connection);
-
-        connection.Open();
-        using (MySqlDataReader reader = command.ExecuteReader())
+        try
         {
-            while (reader.Read())
+            Console.WriteLine("\nAccounts:");
+
+            string query = "SELECT * FROM accounts";
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            connection.Open();
+            using (MySqlDataReader reader = command.ExecuteReader())
             {
-                Console.WriteLine(reader["id"] + "\t" + reader["acc_num"] + "\t" + reader["name"] + "\t" + reader["address"]);
+                while (reader.Read())
+                {
+                    Console.WriteLine(reader["id"] + "\t" + reader["acc_num"] + "\t" + reader["name"] + "\t" + reader["address"]);
+                }
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred while reading data: " + ex.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine("An error occurred while reading data: " + ex.Message);
-    }
-    finally
-    {
-        connection.Close();
-    }
-}
 
     public static void main(string[] args)
     {
@@ -100,9 +104,6 @@ void Read()
             CRUD crud = new CRUD();
             CRUD.Connection();
             Console.WriteLine("enter your choice 1.insert,2.read,3.update,4.delete");
-                    string acc_num;
-        string address;
-        string name;
             string choice = Console.ReadLine();
             switch (choice)
             {
